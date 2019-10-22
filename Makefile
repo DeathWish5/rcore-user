@@ -16,6 +16,7 @@ rust_bins := $(patsubst $(rust_src_dir)/%.rs, $(rust_bin_path)/%, $(wildcard $(r
 ucore_bin_path := ucore/build/$(arch)
 biscuit_bin_path := biscuit/build/$(arch)
 app_bin_path := app/build/$(arch)
+rethink_bin_path := rethink/build/$(arch)
 busybox := $(out_dir)/busybox
 alpine_version_major := 3.10
 alpine_version_full := 3.10.2
@@ -63,6 +64,13 @@ app:
 	@cd app/build && cmake $(cmake_build_args) .. && make -j
 	@rm -rf $(out_dir)/app && mkdir -p $(out_dir)/app
 	@cp $(app_bin_path)/* $(out_dir)/app
+
+rethink:
+	@echo Building rethink programs
+	# already exist
+	# static compiled
+	@rm -rf $(out_dir)/rethink && mkdir -p $(out_dir)/rethink
+	@cp $(rethink_bin_path)/* $(out_dir)/rethink
 
 $(busybox):
 ifeq ($(arch), x86_64)
@@ -133,7 +141,7 @@ ifeq ($(prebuilt), 1)
 build: $(prebuilt_tar)
 	@tar -xzf $< -C build
 else
-build: alpine rust ucore biscuit app busybox nginx redis iperf3 test
+build: alpine rust ucore biscuit app busybox nginx redis iperf3 test rethink
 endif
 
 $(prebuilt_tar):
