@@ -1,4 +1,4 @@
-use crate::syscall::{enlarge_heap, sys_exit, sys_get_time, sys_sleep, sys_vfork, sys_wait};
+use crate::syscall::{sys_exit, sys_get_time, sys_sleep, sys_vfork, sys_wait};
 
 pub fn sleep(time: usize) -> i32 {
     sys_sleep(time)
@@ -16,6 +16,7 @@ pub fn waitpid(pid: usize, code: *mut i32) -> i32 {
     sys_wait(pid, code)
 }
 
+#[allow(unreachable_code)]
 pub fn exit(error_code: usize) {
     sys_exit(error_code);
     panic!("BUG: exit failed");

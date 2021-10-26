@@ -4,8 +4,8 @@
 # PREBUILT: use prebuilt tar from github
 # EN_* = y/n: include application or not
 # targets: build, pack
-ARCH ?= riscv32
-MODE ?= debug
+ARCH ?= riscv64
+MODE ?= release
 EN_RUST ?= y
 EN_UCORE ?= y
 EN_VMM ?= n
@@ -66,7 +66,7 @@ rust:
 ifeq ($(EN_RUST), y)
 	@echo Building rust programs
 	@cd rust && cargo build $(rust_build_args)
-	@for i in $(rust_bins); do make -f rust/Makefile strip STRIP_FILE=$$i; done
+	@for i in $(rust_bins); do make -f rust/Makefile strip STRIP_FILE=$$i ARCH=$(ARCH); done
 	@rm -rf $(out_dir)/rust && mkdir -p $(out_dir)/rust
 	@for i in $(rust_bins); do cp $$i-strip $(out_dir)/rust/$$(basename $$i); done
 else
@@ -258,8 +258,14 @@ $(out_qcow2): $(out_img)
 	@qemu-img convert -f raw $< -O qcow2 $@
 	@qemu-img resize $@ +1G
 
+ROOTFS_DIR := ../riscv_rootfs/linux-user
+
 make:
-	cd make && make make
+	cd make && make make ARCH=$(ARCH)
+
+zcore-img: make
+	mkdir -p $(ROOTFS_DIR)
+	cp -r $(out_dir)/* $(ROOTFS_DIR)/
 
 pre:
 	@mkdir -p $(out_dir)

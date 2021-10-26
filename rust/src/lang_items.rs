@@ -1,7 +1,6 @@
 use crate::syscall::sys_exit;
 use crate::ALLOCATOR;
 
-use super::syscall::*;
 use core::alloc::Layout;
 use core::panic::PanicInfo;
 

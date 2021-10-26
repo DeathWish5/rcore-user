@@ -1,7 +1,6 @@
 use crate::syscall::*;
 use alloc::boxed::Box;
 use alloc::sync::Arc;
-use alloc::vec::Vec;
 use core::cell::UnsafeCell;
 use spin::Mutex;
 pub struct Page(UnsafeCell<[u64; 512]>);
@@ -99,7 +98,6 @@ where
     T: Send + 'static,
 {
     let tcb = Arc::new(ThreadControlBlock::new_stub());
-    use crate::syscall::{MmapFlags, MmapProt};
     let stack = sys_mmap(
         0,
         STACK_SIZE,

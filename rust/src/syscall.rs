@@ -25,7 +25,6 @@ fn sys_call_generic<T: From<isize>>(
 ) -> T {
     let id = syscall_id as usize;
     let mut ret: isize;
-    let failed: i32;
 
     unsafe {
         #[cfg(any(target_arch = "riscv32", target_arch = "riscv64"))]
@@ -168,7 +167,6 @@ pub fn sys_vfork() -> i32 {
 pub fn sys_clone(f: extern "C" fn(usize) -> i32, stack: usize, _flags: i32, arg: usize) -> u32 {
     let (mut ptid, mut ctid) = (0u32, 0u32);
     extern "C" {
-        #[no_mangle]
         fn rcore_user_thread_clone_impl(
             f: usize,
             flags: usize,

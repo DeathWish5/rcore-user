@@ -4,7 +4,6 @@
 #![feature(panic_info_message)]
 #![feature(linkage)]
 #![feature(global_asm)]
-#![feature(renamed_spin_loop)]
 
 extern crate alloc;
 extern crate rlibc;
@@ -29,4 +28,4 @@ pub mod arch;
 use buddy_system_allocator::LockedHeap;
 
 #[global_allocator]
-static ALLOCATOR: LockedHeap = LockedHeap::empty();
+static ALLOCATOR: LockedHeap<32> = LockedHeap::<32>::empty();
