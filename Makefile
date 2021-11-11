@@ -263,7 +263,9 @@ ROOTFS_DIR := ../riscv_rootfs/linux-user
 make:
 	cd make && make make ARCH=$(ARCH)
 
-zcore-img: make
+zcore-build: ucore
+
+zcore-img: zcore-build
 	mkdir -p $(ROOTFS_DIR)
 	cp -r $(out_dir)/* $(ROOTFS_DIR)/
 

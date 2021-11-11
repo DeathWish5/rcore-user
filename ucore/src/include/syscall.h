@@ -28,6 +28,9 @@ int sys_dup(int fd1, int fd2);
 void sys_set_priority(uint32_t priority); //only for lab6
 void *sys_mmap(void *addr, size_t len, int prot, int flags, int fd, size_t offset);
 
+struct async_call_info;
+
+int sys_setup_async_call(int req_capacity, int comp_capacity, int worker_num, struct async_call_info *info,
+                         size_t info_size);
 
 #endif /* !__USER_LIBS_SYSCALL_H__ */
-
