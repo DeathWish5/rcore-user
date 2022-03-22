@@ -3,6 +3,7 @@ use alloc::boxed::Box;
 use alloc::sync::Arc;
 use core::cell::UnsafeCell;
 use spin::Mutex;
+// use lock::mutex::Mutex;
 pub struct Page(UnsafeCell<[u64; 512]>);
 use core::sync::atomic::AtomicBool;
 unsafe impl Sync for Page {}

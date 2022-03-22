@@ -5,6 +5,7 @@
 #include <stat.h>
 #include <string.h>
 #include <lock.h>
+#include <time.h>
 
 static lock_t fork_lock = INIT_LOCK;
 
@@ -68,7 +69,7 @@ lab6_set_priority(uint32_t priority)
 }
 
 int
-sleep(unsigned int time) {
+sleep(struct timespec* time) {
     return sys_sleep(time);
 }
 

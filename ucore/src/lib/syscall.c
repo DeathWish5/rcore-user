@@ -4,6 +4,7 @@
 #include <syscall.h>
 #include <stat.h>
 #include <dirent.h>
+#include <time.h>
 #include <asynccall.h>
 
 #define MAX_ARGS 6
@@ -129,11 +130,6 @@ void sys_set_priority(uint32_t priority)
     syscall(SYS_set_priority, priority);
 }
 
-int sys_sleep(unsigned int time)
-{
-    return syscall(SYS_sleep, time);
-}
-
 int sys_gettime(void)
 {
     return syscall(SYS_gettime);
@@ -211,6 +207,15 @@ int sys_dup(int fd1, int fd2)
     return syscall(SYS_dup3, fd1, fd2);
 }
 
+// DO NOT USE THIS
+int sys_sleep(unsigned int time) {
+    return syscall(SYS_sleep, time);
+}
+
+int sys_nanosleep(struct timespec* time) {
+    return syscall(SYS_sleep, time);
+}
+
 // TODO: fix warning
 void *
 sys_mmap(void *addr, size_t len, int prot, int flags, int fd, size_t offset)
@@ -222,4 +227,9 @@ int sys_setup_async_call(int req_capacity, int comp_capacity, int worker_num, st
                          size_t info_size)
 {
     return syscall(SYS_setup_async_call, req_capacity, comp_capacity, worker_num, info, info_size);
+}
+
+void sys_block_in_kernel(void) {
+    const int SYS_block_in_kernel = 600;
+    return syscall(SYS_block_in_kernel);
 }
