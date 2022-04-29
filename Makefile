@@ -258,7 +258,11 @@ $(out_qcow2): $(out_img)
 	@qemu-img convert -f raw $< -O qcow2 $@
 	@qemu-img resize $@ +1G
 
+ifeq ($(ARCH), riscv64)
 ROOTFS_DIR := ../riscv_rootfs/linux-user
+else ifeq ($(ARCH), x86_64)
+ROOTFS_DIR := ../rootfs/linux-user
+endif
 
 make:
 	cd make && make make ARCH=$(ARCH)
